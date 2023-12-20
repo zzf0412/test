@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.zhaopin_system.mapper.RecruiterMapper">
+    <select id="selectRecruiterByid" parameterType="int" resultType="Recruiter">
+        select * from recruiter where id=#{id}
+    </select>
+    <insert id="insertRecruiter" parameterType="Recruiter">
+        insert into recruiter(username,password,company_name,contact_way,company_scale,company_business)
+        values(#{username},#{password},#{company_name},#{contact_way},#{company_scale},#{company_business})
+    </insert>
+    <select id="selectRecruiter" parameterType="Recruiter" resultType="Recruiter">
+        select * from recruiter where username=#{username} and password=#{password}
+    </select>
+</mapper>

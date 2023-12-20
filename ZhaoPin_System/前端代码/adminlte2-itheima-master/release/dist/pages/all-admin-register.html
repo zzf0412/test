@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<script src="../js/vue.js"></script>
+	<script src="../js/axios-0.18.0.js"></script>
+    <title>招聘系统注册</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <!-- Font Awesome -->
+    <!-- Ionicons -->
+    <!-- Theme style -->
+    <!-- iCheck -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../plugins/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/iCheck/square/blue.css">
+</head>
+
+<body class="hold-transition register-page">
+    <div class="register-box" id="app">
+        <div class="register-logo">
+            <a href="all-admin-register.html">招聘系统注册</a>
+        </div>
+        <div class="register-box-body">
+            <p class="login-box-msg">新用户注册</p>
+            <form @submit.prevent="register" method="post">
+                <div class="form-group has-feedback">
+                    <input v-model="username" type="text" class="form-control" placeholder="用户名">
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                     <input v-model="password" type="password" class="form-control" placeholder="密码">
+                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+				<!-- 添加一个用于选择用户类型的下拉框 -->
+                <div class="form-group has-feedback">
+					<select v-model="userType" class="form-control">
+						<option value="jobseeker">求职者</option>
+						<option value="recruiter">招聘者</option>
+					</select>
+                </div>
+				<div v-if="userType === 'recruiter'">
+				    <div class="form-group has-feedback">
+				        <input v-model="companyName" type="text" class="form-control" placeholder="公司名称">
+				    </div>
+				    <div class="form-group has-feedback">
+				        <input v-model="contactWay" type="text" class="form-control" placeholder="联系方式">
+				    </div>
+				    <div class="form-group has-feedback">
+				        <input v-model="companyScale" type="text" class="form-control" placeholder="公司规模">
+				    </div>
+				    <div class="form-group has-feedback">
+				        <input v-model="companyBusiness" type="text" class="form-control" placeholder="公司业务">
+				    </div>
+				</div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <span v-if="success">注册成功<a href="all-admin-login.html">返回登录界面</a></span>
+						<span v-if="!success&&nosuccess" style="color: red;">注册失败</span>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">注册</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+            <a href="all-admin-login.html" class="text-center">我有账号，现在就去登录</a>
+        </div>
+        <!-- /.form-box -->
+    </div>
+    <!-- /.register-box -->
+
+    <!-- jQuery 2.2.3 -->
+    <!-- Bootstrap 3.3.6 -->
+    <!-- iCheck -->
+    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../plugins/iCheck/icheck.min.js"></script>
+    <script>
+        new Vue({
+			el: '#app',
+            data: {
+                username: '',
+                password: '',
+                userType: 'jobseeker',
+                companyName: '',
+                contactWay: '',
+                companyScale: '',
+                companyBusiness: '',
+				success:false,
+				nosuccess:false,
+            },
+            methods: {
+                register() {
+                    // 根据用户类型调用不同的注册接口
+                    if (this.userType === 'jobseeker') {
+                        // 发送求职者注册请求
+                        axios.post('http://localhost:8080/JobSeeker/register', {
+                            username: this.username,
+                            password: this.password
+                        })
+                        .then(response => {
+                            if(response.data===0){
+								this.success=false;
+								this.nosuccess=true;
+							}else{
+								this.success=true;
+								this.nosuccess=false;
+							}
+							
+                        })
+                        .catch(error => {
+                            console.error('请求失败：');
+                        });
+                    } else if (this.userType === 'recruiter') {
+                        // 发送招聘者注册请求
+                        axios.post('http://localhost:8080/Recruiter/register', {
+                            username: this.username,
+                            password: this.password,
+                            company_name: this.companyName,
+                            contact_way: this.contactWay,
+                            company_scale: this.companyScale,
+                            company_business: this.companyBusiness
+                        })
+                        .then(response => {
+							if(response.data===0){
+								this.success=false;
+								this.nosuccess=true;
+							}else{
+								this.success=true;
+								this.nosuccess=false;
+							}
+                        })
+                        .catch(error => {
+                            console.error('请求失败：');
+                        });
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

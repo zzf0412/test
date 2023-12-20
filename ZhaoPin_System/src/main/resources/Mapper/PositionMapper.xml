@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.zhaopin_system.mapper.PositionMapper">
+    <select id="selectAllPosition" resultType="Position">
+        select * from position
+    </select>
+    <select id="selectPositionByReid" resultType="Position" parameterType="int">
+        select * from position where recruiter_id=#{id}
+    </select>
+    <select id="selectPositionByid" resultType="Position" parameterType="int">
+        select * from position where id=#{id}
+    </select>
+    <delete id="deletePosition" parameterType="Position">
+        delete from position where id=#{id}
+    </delete>
+    <update id="updatePosition" parameterType="Position">
+        update position set recruiter_id=#{recruiter_id},name=#{name},salary=#{salary},address_id=#{address_id},requires=#{requires}
+ where id=#{id}
+    </update>
+    <insert id="insertPosition" parameterType="Position">
+        insert into `position`(recruiter_id,name,salary,address_id,requires) values (#{recruiter_id},#{name},#{salary},#{address_id},#{requires})
+    </insert>
+</mapper>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.zhaopin_system.mapper.JobSeekerMapper">
+    <select id="selectAllAccessory" resultType="Accessory">
+        select * from accessory
+    </select>
+    <select id="selectAccessoryByReid" resultType="Accessory" parameterType="int">
+        select * from accessory where accessory.resume_id=
+    </select>
+</mapper>

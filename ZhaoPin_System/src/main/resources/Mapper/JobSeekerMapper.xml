@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.zhaopin_system.mapper.JobSeekerMapper">
+    <select id="selectAllJobSeeker" resultType="JobSeeker">
+        select * from jobseeker
+    </select>
+    <select id="selectJobSeekerByid" resultType="JobSeeker" parameterType="int">
+        select * from jobseeker where jobseeker.id=#{id}
+    </select>
+    <select id="selectJobSeeker" resultType="JobSeeker" parameterType="JobSeeker">
+        select * from jobseeker where jobseeker.username=#{username} and jobseeker.password=#{password}
+    </select>
+    <insert id="insertJobSeeker" parameterType="JobSeeker">
+        insert into jobseeker(username,password) values (#{username},#{password})
+    </insert>
+</mapper>
